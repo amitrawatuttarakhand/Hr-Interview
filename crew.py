@@ -17,7 +17,7 @@ def get_api_key() -> str:
 
 
 def build_crew() -> Crew:
-    """Create a fresh crew using Groq's fast open-source Llama model via native OpenAI routing."""
+    """Create a fresh crew using OpenAI's gpt-oss-120b model hosted on Groq."""
     api_key = get_api_key()
     if not api_key:
         raise RuntimeError(
@@ -25,11 +25,12 @@ def build_crew() -> Crew:
             "or to Streamlit Cloud Secrets."
         )
 
-    # Routes Groq through CrewAI's native OpenAI handler without LiteLLM
+    # Configured for gpt-oss-120b via Groq OpenAI endpoint without LiteLLM dependency
     llm = LLM(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-120b",
         base_url="https://api.groq.com/openai/v1",
         api_key=api_key,
+        custom_openai=True,
         temperature=0.2
     )
 
@@ -89,7 +90,7 @@ def main() -> None:
         layout="wide",
     )
     st.title("🤖 HR Sourcing Crew")
-    st.write("Screen a resume against a job description and generate interview questions instantly using free Llama 3.3 cloud intelligence.")
+    st.write("Screen a resume against a job description and generate interview questions instantly using free cloud intelligence.")
 
     with st.form("candidate_analysis", border=False):
         resume_column, job_column = st.columns(2)
