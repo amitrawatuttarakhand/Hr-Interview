@@ -1,4 +1,4 @@
-streamlit>=1.40.0
-crewai>=0.100.0
-pypdf>=5.1.0
-python-dotenv>=1.0.1
+streamlit
+crewai
+pypdf
+python-dotenv
