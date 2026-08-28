@@ -8,16 +8,28 @@ from streamlit.typing import UploadedFile
 # Load local environment variables (.env)
 load_dotenv()
 
-def build_crew() -> Crew:
-    """Create a fresh crew using Groq's fast open-source Llama model."""
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
-        raise RuntimeError("GROQ_API_KEY is not set. Add it to your .env file or sidebar.")
+def get_api_key() -> str:
+    """Retrieve API key securely from environment variables or Streamlit secrets."""
+    key = os.getenv("GROQ_API_KEY")
+    if not key and "GROQ_API_KEY" in st.secrets:
+        key = st.secrets["GROQ_API_KEY"]
+    return key
 
-    # UPDATED Configured to use the current Llama 3.3 70B model via Groq API
+
+def build_crew() -> Crew:
+    """Create a fresh crew using Groq's fast open-source Llama model via native OpenAI routing."""
+    api_key = get_api_key()
+    if not api_key:
+        raise RuntimeError(
+            "GROQ_API_KEY is not configured. Please add GROQ_API_KEY to your .env file "
+            "or to Streamlit Cloud Secrets."
+        )
+
+    # Routes Groq through CrewAI's native OpenAI handler without LiteLLM
     llm = LLM(
-        model="groq/llama-3.3-70b-versatile", 
-        api_key=api_key, 
+        model="openai/llama-3.3-70b-versatile",
+        base_url="https://api.groq.com/openai/v1",
+        api_key=api_key,
         temperature=0.2
     )
 
@@ -78,13 +90,6 @@ def main() -> None:
     )
     st.title("🤖 HR Sourcing Crew")
     st.write("Screen a resume against a job description and generate interview questions instantly using free Llama 3.3 cloud intelligence.")
-
-    # Dynamic fallback: Let user provide API key in sidebar if .env is missing
-    with st.sidebar:
-        st.header("🔑 Authentication")
-        user_key = st.text_input("Groq API Key", type="password", value=os.getenv("GROQ_API_KEY", ""))
-        if user_key:
-            os.environ["GROQ_API_KEY"] = user_key
 
     with st.form("candidate_analysis", border=False):
         resume_column, job_column = st.columns(2)
