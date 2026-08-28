@@ -1,4 +1,4 @@
-# 🤖 HR Sourcing Crew
+# HR Sourcing Crew
 
 An AI-powered Streamlit application that automates candidate resume screening against job descriptions and generates targeted technical interview questions using **CrewAI** and **Groq**.
 
