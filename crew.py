@@ -86,10 +86,10 @@ def extract_resume_text(uploaded_pdf: UploadedFile) -> str:
 def main() -> None:
     st.set_page_config(
         page_title="HR Sourcing Crew",
-        page_icon="🤖",
+        page_icon="",
         layout="wide",
     )
-    st.title("🤖 HR Sourcing Crew")
+    st.title("HR Sourcing Crew")
     st.write("Screen a resume against a job description and generate interview questions instantly using free cloud intelligence.")
 
     with st.form("candidate_analysis", border=False):
