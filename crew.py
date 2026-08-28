@@ -25,9 +25,9 @@ def build_crew() -> Crew:
             "or to Streamlit Cloud Secrets."
         )
 
-    # Configured for gpt-oss-120b via Groq OpenAI endpoint without LiteLLM dependency
+    # CrewAI strips the first 'openai/', sending 'openai/gpt-oss-120b' directly to Groq
     llm = LLM(
-        model="openai/gpt-oss-120b",
+        model="openai/openai/gpt-oss-120b",
         base_url="https://api.groq.com/openai/v1",
         api_key=api_key,
         custom_openai=True,
