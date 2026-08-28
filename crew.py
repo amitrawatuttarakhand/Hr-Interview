@@ -27,7 +27,7 @@ def build_crew() -> Crew:
 
     # Routes Groq through CrewAI's native OpenAI handler without LiteLLM
     llm = LLM(
-        model="openai/llama-3.3-70b-versatile",
+        model="openai/llama-3.1-8b-instant",
         base_url="https://api.groq.com/openai/v1",
         api_key=api_key,
         temperature=0.2
